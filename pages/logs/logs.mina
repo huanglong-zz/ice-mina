@@ -1,0 +1,12 @@
+<!--logs.wxml-->
+<template lang='pug'>
+text.log-item {{logs}}
+</template>
+
+<script>
+Page({
+  data: {
+    logs: '日志'
+  }
+})
+</script>

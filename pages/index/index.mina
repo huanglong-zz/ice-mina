@@ -1,0 +1,24 @@
+<!--index.wxml-->
+<template lang='pug'>
+view.container
+  view 小程序首页
+  view 小程序首页
+  view 小程序首页
+  view 小程序首页
+  view 小程序首页
+</template>
+
+<script>
+  //index.js
+//获取应用实例
+const app = getApp()
+
+Page({
+  data: {
+    motto: 'Hello World',
+    userInfo: {},
+    hasUserInfo: false,
+    canIUse: wx.canIUse('button.open-type.getUserInfo')
+  }
+})
+</script>
