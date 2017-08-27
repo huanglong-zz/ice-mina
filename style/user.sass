@@ -1,0 +1,91 @@
+$user-gutter: 90rpx
+
+.user
+  width: calc(100vw - 2 * #{$user-gutter})
+  padding: $user-gutter
+
+  .user-info
+    width: 100%
+    height: 112rpx
+    display: flex
+    justify-content: space-between
+
+    .name
+      font-size: 46rpx
+    
+    .profile
+      width: 112rpx
+      height: 112rpx
+      overflow: hidden
+      border-radius: 50%
+      border: 1rpx solid$grey-100
+
+  .user-table
+    margin-top: 1.6 * $gutter
+
+    .table-line
+      padding: 14rpx 0
+      border-top: 1px solid$grey-400
+
+    .table-label
+      width: 100%
+      height: 1.6 * $content2
+      font-size: $content2
+      display: flex
+      justify-content: space-between
+      align-items: center
+      color: $grey-800
+
+    .table-body
+      width: 100%
+      font-size: $title2
+      line-height: 1.2 * $title2
+      position: relative
+
+      .table-save-btn
+        position: absolute
+        top: .1 * $title2
+        right: 0
+
+        .material-icon
+          font-size: $footer
+
+      .payment
+        display: flex
+
+        image
+          width: 160rpx
+          height: 160rpx
+
+        .payment-body
+          height: 160rpx
+          border-bottom: 1px solid$grey-200
+          flex: 1
+
+          .payment-title
+            height: 1.8 * $footer
+            line-height: 1.8 * $footer
+            color: $grey-700
+            font-size: $footer
+
+          .payment-intro
+            height: 1.8 * 20rpx
+            line-height: 1.8 * 20rpx
+            color: $grey
+            font-size: 20rpx
+
+        .payment-footer
+          width: 100rpx
+          height: 160rpx
+          border-bottom: 1px solid$grey-200
+
+          .payment-price
+            width: 100%
+            height: 32rpx
+            display: flex
+            align-items: center
+            justify-content: center
+            font-size: 20rpx
+            color: $white
+            background-color: $teal-800
+

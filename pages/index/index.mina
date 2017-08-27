@@ -1,24 +1,104 @@
-<!--index.wxml-->
-<template lang='pug'>
+<template lang="pug">
 view.container
-  view 小程序首页
-  view 小程序首页
-  view 小程序首页
-  view 小程序首页
-  view 小程序首页
-</template>
+  scroll-view(scroll-x)
+    view.carousel-content.index-carousel-content
+      view.carousel(wx:for='{{houses}}', catchtap='linkToHouse', data-house='{{item}}')
+        view.carousel-header
+          view.caption {{item.words}}
+          view.headline {{item.cname}}
+          view.title {{item.name}}
+        image.carousel-media(src='{{qiniuCDN}}/{{item.cname}}', mode='widthFix')
+  view.hr
+  view.section
+    view.section-title 主要人物
+    view.section-body
+      view.section-item(wx:for='{{characters}}', catchtap='linkToCharacter', data-character='{{item}}')
+        image.section-media(src='{{qiniuCDN}}/{{item.profile}}?imageView2/1/w/280/h/440/format/jpg/q/75|imageslim')
+        view.cname {{item.cname}}
+        view.name {{item.name}}
+        view.playedBy {{item.playedBy}}
+  view.hr
+  view.section
+    view.section-title 维斯特洛
+    view.section-body
+      image.map-bg(src='http://oqncgivnd.bkt.clouddn.com/map/bg2.png', mode='widthFix')
+      view 坐落于已知世界的最西端，狭长的维斯特洛大陆由北部的极地冰盖起向南延绵约3,000英里。绝境长城是一座巍峨挺立的不可逾越之物，横跨300英里，将最北的塞外地区与七大王国相互分离。一个统一的政治实体领导着南方的广阔土地，并形成九块相互联系又相互割据的区域。
 
+      view.p-title 北境
+      view.p 北境是颈泽以北的地带，临冬城的史塔克家族作为北境之王和伊耿征服后的北境守护已统治了数千年之久。
+     
+      view.p-title 铁群岛
+      view.p 铁群岛是位于大陆西海岸铁民湾中的一组群岛，它们分别是派克岛，大威克岛，老威克岛，哈尔洛岛，盐崖岛，黑潮岛和奥克蒙岛。
+
+      view.p-title 河间地
+      view.p 河间地是位于三叉戟河流域的肥沃地带。他们的统治者是奔流城的徒利家族。在远古的河流王灭绝后，河间地进入一个动荡的历史时期，其他的南方王国纷纷入侵，河间地多次易主。
+      
+      view.p-title 艾林谷
+      view.p 谷地是一处几乎被明月山脉完全环绕的区域，他们的统治者是艾林家族，是最古老的安达尔人贵族之一，在伊耿征服之前是山岭和谷地之王。
+
+      view.p-title 西境
+      view.p 西境位于河间地以西和河湾以北，由凯岩城的兰尼斯特家族统治，他们是从前的岩地之王。
+
+      view.p-title 河湾
+      view.p 河湾是由高庭的提利尔家族所统治的肥沃土地。提利尔家族原本是园丁家族的总管，园丁家族是伊耿征服之前的河湾王。
+
+      view.p-title 风暴之地
+      view.p 风暴之地位于君临和多恩海之间，在东边则是被破船湾和多恩海与南方分隔开来。
+
+      view.p-title 多恩
+      view.p 多恩是维斯特洛最南部的土地，从多恩边境地的高山一直延伸到大陆的南海岸。这里是维斯特洛最炎热的国度，拥有大陆上仅有的沙漠。
+
+      view.p-title 王领
+      view.p 王领是铁王座之王的直属领地。这块区域包括君临以及周围地带的罗斯比城和暮谷城。
+
+      view.p-title 龙石岛
+      view.p 龙石岛是位于狭海中的岛屿要塞，同时管理着狭海中的一些其他岛屿如潮头岛和蟹岛，以及位于大陆上的尖角要塞。
+
+
+</template>
 <script>
-  //index.js
-//获取应用实例
 const app = getApp()
 
 Page({
   data: {
-    motto: 'Hello World',
-    userInfo: {},
-    hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    qiniuCDN: app.globalData.qiniuCDN,
+    houses: [],
+    characters: []
+  },
+  linkToHouse (e) {
+    let { currentTarget } = e
+    let { dataset } = currentTarget
+    let { house } = dataset
+
+    wx.navigateTo({
+      url: `../house/house?_id=${house._id}`
+    })
+  },
+  linkToCharacter (e) {
+    let { currentTarget } = e
+    let { dataset } = currentTarget
+    let { character } = dataset
+
+    wx.navigateTo({
+      url: `../character/character?_id=${character._id}`
+    })
+  },
+  async onLoad () {
+    wx.showNavigationBarLoading()
+    let houses = await wx.reqAsync({url: `${app.globalData.serverUrl}/wiki/houses`})
+
+    this.setData({
+      houses: houses.data
+    })
+
+    let characters = await wx.reqAsync({url: `${app.globalData.serverUrl}/wiki/characters`})
+    characters = R.slice(0, 8)(characters.data)
+    this.setData({
+      characters: characters
+    })
+
+    await app.getUserInfo()
+    wx.hideNavigationBarLoading()
   }
 })
 </script>

@@ -1,0 +1,126 @@
+.character-carousel-content
+  margin-top: 1.6 * $gutter
+  height: calc((100vw - 2 * #{$gutter}) / 3 * 2)
+
+.character
+  width: 100vw
+  height: 100vh
+    
+  .character-header  
+    width: 100vw
+    height: 61vw
+    display: flex
+    margin-bottom: calc(25vw + 1.6 * #{$gutter})
+
+    .character-header-bg
+      width: 100%
+      height: 460rpx !important
+      position: absolute
+      z-index: 0
+      top: 0
+      left: 0
+      filter: brightness(80%) opacity(50%) grayscale(70%)
+
+
+    .character-media
+      width: 280rpx
+      margin-left: $gutter
+      position: relative
+      z-index: 1
+
+      image
+        width: 100%
+        position: absolute
+        right: 0
+        bottom: 0
+        transform: translateY(25vw)
+        overflow: visible
+        
+        .character-header-footer
+          width: calc(100vw - 2.8 * #{$gutter} - 280rpx)
+          height: 25vw
+          left: calc(100% + .8 * #{$gutter})
+          position: absolute
+          bottom: 0
+          display: flex
+          align-items: flex-end
+
+          .allegiances
+            flex: 1
+            font-size: $content2
+            color: $grey-700
+            line-height: 1.6 * $content2
+
+          .born
+            width: 170rpx
+            height: 40rpx
+            background-color: $grey-400
+            color: $white
+            display: flex
+            justify-content: center
+            align-items: center
+            font-size: $footer
+
+
+    .character-text
+      flex: 1
+      position: relative
+      z-index: 2
+      display: flex
+      flex-direction: column
+      justify-content: flex-end
+      padding-left: .8 * $gutter
+
+      .cname
+        // +googleFont
+        font-weight: 900
+        font-size: 44rpx
+        color: $white
+        margin-bottom: .4 * $gutter
+
+      .name
+        font-size: $content
+        color: $white
+        margin-bottom: 1.6 * $gutter
+
+  .character-body
+    .character-item
+      width: calc(100vw - 2 * #{$gutter})
+      padding: 0 $gutter
+
+      .character-item-title
+        margin-bottom: 2 * $gutter
+        position: relative
+        +title-text
+
+        &:after
+          content: ''
+          width: 100%
+          height: 2rpx
+          position: absolute
+          top: calc(100% + .6 * #{$gutter})
+          left: 0
+          background-color: $grey-400
+
+      .character-item-body
+        +content-text
+    
+
+    .character-intro
+      width: calc(100vw - 2 * #{$gutter})
+      padding: 0 $gutter
+
+    .p
+      font-size: $content
+      line-height: 1.6 * $content
+      color: $grey-700
+      margin-bottom: $content
+
+      &:last-child
+        margin-bottom: 0
+
+    .p2
+      font-size: $content2
+      line-height: 1.6 * $content2
+      color: $grey-700
+      margin-bottom: $content2

@@ -1,0 +1,118 @@
+.house
+  width: 100vw
+  height: 100vh
+
+  .house-media
+    width: 100vw
+    overflow: hidden
+    position: relative
+
+    .house-text
+      position: absolute
+      color: $white
+      bottom: $gutter
+      left: 48rpx
+      width: calc(100vw - 96rpx)
+
+      .words
+        font-size: $footer
+
+      .name
+        margin-top: 10rpx
+        font-size: $title
+        
+
+    image
+      width: 100%
+
+  .house-body
+    margin-top: 1.5 * $gutter
+    
+    .house-item
+      width: calc(100vw - 2.6 * #{$gutter})
+      padding: 0 1.3 * $gutter
+
+      .house-item-title
+        margin-bottom: 2 * $gutter
+        position: relative
+        +title-text
+
+        &:after
+          content: ''
+          width: 100%
+          height: 2rpx
+          position: absolute
+          top: calc(100% + .6 * #{$gutter})
+          left: 0
+          background-color: $grey-400
+
+      .house-item-body
+        +content-text
+
+        .list
+          +content-text
+
+        .history
+          .history-title
+            font-size: $title2
+            color: $grey-700
+            margin-bottom: .6 * $gutter
+
+          .history-body
+            font-size: $content2
+            color: $grey-600
+            line-height: 1.6 * $content2
+            margin-bottom: $gutter
+
+
+
+      .swornMember
+        width: 100%
+        margin-top: 1.6 * $gutter
+        display: flex
+
+        &:first-child
+          margin-top: 0
+
+
+        image
+          width: 236rpx
+
+        .swornMember-body
+          flex: 1
+          height: 291rpx
+          display: flex
+          flex-direction: column
+          justify-content: flex-start
+          align-items: flex-start
+          padding-left: .8 * $gutter
+
+          .name
+            font-size: $title2
+            color: $grey-700
+
+
+          .introduction
+            margin-top: .4 * $gutter
+            font-size: $footer
+            color: $grey-600
+            line-height: 1.6 * $footer
+
+    
+    .house-intro
+      width: calc(100vw - 2 * #{$gutter})
+
+    .p
+      font-size: $content
+      line-height: 1.6 * $content
+      color: $grey-700
+      margin-bottom: $content
+
+      &:last-child
+        margin-bottom: 0
+
+    .p2
+      font-size: $content2
+      line-height: 1.6 * $content2
+      color: $grey-700
+      margin-bottom: $content2        

@@ -1,0 +1,67 @@
+@mixin text-overflow
+  width: 100%
+  text-overflow: ellipsis
+  white-space: nowrap
+  overflow: hidden
+
+@mixin title-text
+  font-size: $title
+  color: $grey-800
+
+@mixin content-text
+  font-size: $content
+  line-height: 1.6 * $content
+  color: $grey-600
+
+@mixin footer-text
+  font-size: $footer
+  color: $grey-400
+
+@mixin banner-image
+  width: 280rpx
+
+@mixin caption
+  font-size: $caption
+  font-weight: $regular
+  color: $grey-700
+
+@mixin headline
+  font-size: $headline
+  font-weight: $semibold
+  color: $grey-900
+
+@mixin title
+  font-size: $title
+  font-weight: $semibold
+  color: $grey-900
+  line-height: 1.6 * $title
+
+@mixin subheading($line-height)
+  font-size: $subheading
+  font-weight: $regular
+  color: $grey-800
+  line-height: $line-height * $subheading
+
+@mixin supplement($line-height)
+  font-size: $supplement
+  font-weight: $regular
+  color: $grey-700
+  line-height: $line-height * $supplement
+
+@mixin clearfix
+  &:after,
+  &:before
+    content: ""
+    display: table
+    line-height: 0
+
+  &:after
+    clear: both
+
+@mixin carousel-image
+  width: calc(100vw - 2 * #{$gutter})
+  height: calc((100vw - 2 * #{$gutter}) * 3 / 2)
+  border-radius: $radius-2db
+
+@mixin googleFont
+  font-family: "NotoSans-Bold, NotoMono-Regular, NotoSans-Regular, 'Roboto'"

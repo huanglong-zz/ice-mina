@@ -1,0 +1,78 @@
+.shopping
+  .shopping-title
+    width: 100vw
+    height: 112rpx
+    display: flex
+    justify-content: center
+    align-items: center
+    font-size: $content
+    color: $grey-900
+    border-top: 1px solid$grey-400
+    border-bottom: $gutter solid$grey-200
+
+  .shopping-list
+
+    .shopping-item
+      width: 100vw
+      height: 40vw
+      overflow: hidden
+      display: flex
+
+      .shopping-media
+        width: 40vw
+        height: 40vw
+
+        image
+          width: 40vw
+          height: 40vw
+
+      .shopping-body
+        flex: 1
+        border-bottom: 1px solid$grey-200
+        padding: .8 * $gutter
+        display: flex
+        flex-direction: column
+
+        .shopping-body-title
+          height: $content + 10rpx
+          color: $grey-800
+          font-size: $content
+          margin-bottom: .4 * $gutter
+          +text-overflow
+          width: calc(60vw - 1.6 * #{$gutter})
+
+        .shopping-body-content
+          max-height: 4.8 * $content
+          color: $grey-600
+          font-size: $supplement
+          line-height: 1.2 * $content
+          flex: 1
+
+          text
+            width: 100%
+            overflow : hidden
+            text-overflow: ellipsis
+            display: -webkit-box
+            -webkit-line-clamp: 4
+            -webkit-box-orient: vertical
+
+        .shopping-body-footer
+          height: 50rpx
+          padding-right: $gutter
+          color: $blue
+          font-size: $caption
+          position: relative
+  
+          .text
+            display: inline
+            position: absolute
+            right: 0
+            top: calc(50% - #{$caption} / 2)
+            
+          .icon
+            font-family: 'Material Icons'
+            font-size: 1.6 * $caption
+            display: inline
+
+
+

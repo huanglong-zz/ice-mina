@@ -1,0 +1,55 @@
+<template lang="pug">
+view.character
+  view.character-header
+    image.character-header-bg(src='{{qiniuCDN}}/{{character.images[character.images.length - 1]}}?imageView2/1/w/375/h/230/format/jpg/q/90|imageslim', mode='widthFix')
+    view.character-media
+      image(src='{{qiniuCDN}}/{{character.profile}}?imageView2/1/w/280/h/440/format/jpg/q/75|imageslim', mode='widthFix')
+        .character-header-footer
+          .born
+            view {{character.nmId}}
+    view.character-text
+      .cname {{character.cname}}
+      .name {{character.name}}
+  view.character-body
+    view.character-intro 
+      view.p(wx:for='{{character.intro}}') {{item}}
+    scroll-view(scroll-x)
+      view.carousel-content.character-carousel-content
+        view.carousel(wx:for='{{character.images}}')
+          image.carousel-media(src='{{qiniuCDN}}/{{item}}?imageView2/1/w/750/h/460/format/jpg/q/90|imageslim', mode='widthFix')
+  
+    view.character-item.br(wx:for='{{character.sections}}')
+      view.character-item-title {{item.title}}
+      view.character-item-body
+        view.p2(wx:for='{{item.content}}', wx:for-item='text') {{text}}
+
+
+</template>
+
+<script>
+var app = getApp()
+
+Page({
+  data: {
+    qiniuCDN: app.globalData.qiniuCDN,
+    character: {}
+  },
+  async onLoad (query) {
+    wx.showNavigationBarLoading()
+
+    const { _id } = query
+
+    let character = await wx.reqAsync({url: `${app.globalData.serverUrl}/wiki/characters/${_id}`})
+
+    character = character.data
+
+    this.setData({
+      character: character
+    })
+
+    let { cname } = character
+    if (cname) wx.setNavigationBarTitle({ title: cname })
+    wx.hideNavigationBarLoading()
+  }
+}) 
+</script>

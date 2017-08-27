@@ -1,0 +1,55 @@
+<template lang="pug">
+view.container
+  view.shopping
+    view.shopping-title 权游周边
+    view.shopping-list
+      view.shopping-item(wx:for='{{products}}', catchtap='linkToDeal', data-item='{{item}}')
+        .shopping-media
+          image(src='http://icefire.iblack7.com/{{item.images[0]}}?imageView2/1/w/300/h/300/format/jpg/q/90|imageslim', mode='aspectFit')
+        view.shopping-body
+          view.shopping-body-title {{item.title}}
+          view.shopping-body-content
+            //- 小程序的换行\n只有在 text 标签中能使用
+            text {{item.intro}}
+          //- view.shopping-body-footer
+          //-   view.icon mood
+          //-   view.text 12 人喜欢
+</template>
+<script>
+const app = getApp()
+
+Page({
+  data: {
+    qiniuCDN: app.globalData.qiniuCDN,
+    products: []
+  },
+  linkToDeal (e) {
+    let { currentTarget } = e
+    let { dataset } = currentTarget
+    let { item } = dataset
+
+    wx.navigateTo({
+      url: `../deal/deal?_id=${item._id}`
+    })
+  },
+  async onLoad () {
+    wx.setNavigationBarTitle({ title: '周边' })
+    wx.showNavigationBarLoading()
+
+    let res = await wx.reqAsync({url: `${app.globalData.serverUrl}/api/products`})
+    let { data } = res
+
+    // <br /> 转换成 \n
+    data = _.map(data, item => {
+      item.intro = item.intro.replace(/<br \/>/g, '\n')
+      return item
+    })
+
+    this.setData({
+      products: data
+    })
+
+    wx.hideNavigationBarLoading()
+  } 
+})
+</script>

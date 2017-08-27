@@ -1,18 +1,94 @@
-@import './logs'
+@import "./var"
+@import "./color"
+@import "./font"
+@import "./icons"
+@import "./keyframes"
+@import "./mixin"
+@import "./house"
+@import "./character"
+@import "./shopping"
+@import "./deal"
+@import "./index"
+@import "./user"
 
-.userinfo
+.container 
+  min-height: 100vh
+  width: 100vw
   display: flex
   flex-direction: column
+  justify-content: flex-start
   align-items: center
+  overflow: scroll
 
-.userinfo-avatar
-  width: 128rpx
-  height: 128rpx
-  margin: 20rpx
+.fullscreen
+  width: calc(100vw - 2 * #{$gutter})
+  height: 100vh
+  position: fixed
+  top: 0
+  left: 0
+  z-index: 101
+  flex-direction: column
+  display: none
+  background-color: $white
+  padding: 0 $gutter 2 * $gutter $gutter
+  overflow: scroll
+  
+.br
+  margin-top: 1.6 * $gutter
+
+.gutter-top
+  margin-top: $gutter
+
+.hr
+  width: 100%
+  max-width: calc(100vw - 2 * #{$gutter})
+  height: 2rpx
+  background-color: $grey-400
+  margin: $gutter 0
+
+.back
+  width: 1.7rem
+  height: 1.7rem
+  position: fixed
+  top: 0.5 * $gutter
+  right: $gutter
+  background-color: $grey-800
+  color: $white
+  display: flex
+  justify-content: center
+  align-items: center
   border-radius: 50%
 
-.userinfo-nickname
-  color: #aaa
+  .material-icon
+    font-size: 1.6rem
 
-.usermotto
-  margin-top: 200px
+.carousel-content
+  width: calc(100vw - 2 * #{$gutter})
+  display: flex
+  padding: 0 $gutter
+
+  .carousel
+    margin-left: $carousel-margin
+    &:first-child
+      margin-left: 0
+    
+    .carousel-header
+      .caption
+        +caption
+        height: $caption
+
+      .headline
+        +headline
+        height: $headline
+        margin-top: 8rpx
+
+      .title
+        +title
+        height: $title
+        color: $grey-700
+        margin-bottom: 16rpx
+
+    .carousel-media
+      +carousel-image
+
+

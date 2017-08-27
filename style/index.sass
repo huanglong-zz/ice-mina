@@ -1,0 +1,47 @@
+.index-carousel-content
+  height: calc(100vw - 2 * #{$gutter} - #{$caption + $headline + $title} - 16rpx - 8rpx)
+
+.section
+  width: calc(100vw - 2 * #{$gutter})
+  
+  .section-title
+    +title
+
+  .map-bg
+    position: absolute
+    width: 100%
+    z-index: 0
+    opacity: .3
+    margin-top: 200rpx
+
+  .section-body
+    position: relative
+    display: flex
+    flex-wrap: wrap
+    justify-content: space-between
+    margin-top: .8 * $gutter
+    font-size: $body1
+    line-height: 1.6 * $body1
+
+    .p-title
+      font-size: $body2
+      line-height: 1.6 * $body2
+      color: $grey-800
+      margin-top: 1.3 * $body2
+    .p
+      +caption
+
+    .section-item
+      width: calc(50vw - #{$media-margin + $gutter})
+      margin-bottom: 1.6 * $card-gutter
+
+      .cname
+        +subheading(1.3)
+
+      .name
+        +supplement(1.3)
+      .playedBy
+        +supplement(1.3)
+
+    .section-media
+      width: 100%

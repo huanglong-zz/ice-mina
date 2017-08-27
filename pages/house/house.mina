@@ -1,0 +1,65 @@
+<template lang="pug">
+view.section.house
+  view.house-media
+    image(src='{{qiniuCDN}}/{{house.cname}}?imageView2/1/w/750/h/460/format/jpg/q/90|imageslim', mode='widthFix')
+    view.house-text
+      view.words {{house.words}}
+      view.name {{house.name}}
+  view.house-body
+    view.house-item
+      view.house-item-title {{house.cname}}
+      view.house-item-body
+        view.house-intro 
+          view.p {{house.intro}}
+
+    view.house-item.br
+      view.house-item-title 家族成员
+      view.house-item-body
+        view.swornMember(wx:for='{{house.swornMembers}}', data-item='{{item.character}}', catchtap='linkToCharacter')
+          image(src='{{qiniuCDN}}/{{item.character.profile}}?imageView2/1/w/280/h/440/format/jpg/q/75|imageslim', mode='widthFix')
+          .swornMember-body
+            .name {{item.character.cname}}
+            .introduction {{item.text}}
+    view.house-item.br(wx:for='{{house.sections}}')
+      view.house-item-title {{item.title}}
+      view.house-item-body
+        view.p2(wx:for='{{item.content}}', wx:for-item='text') {{text}}
+
+</template>
+
+<script>
+const app = getApp()
+
+Page({
+  data: {
+    qiniuCDN: app.globalData.qiniuCDN,
+    house: {}
+  },
+  linkToCharacter (e) {
+    let { currentTarget } = e
+    let { dataset } = currentTarget
+    let { item } = dataset
+
+    wx.navigateTo({
+      url: `../character/character?_id=${item.nmId}`
+    })
+  },
+  async onLoad (query) {
+    wx.showNavigationBarLoading()
+
+    const { _id } = query
+
+    let house = await wx.reqAsync({url: `${app.globalData.serverUrl}/wiki/houses/${_id}`})
+    house = house.data
+
+    this.setData({
+      house: house
+    })
+
+    let { cname } = house
+    if (cname) wx.setNavigationBarTitle({ title: cname })
+    wx.hideNavigationBarLoading()
+
+  }
+}) 
+</script>

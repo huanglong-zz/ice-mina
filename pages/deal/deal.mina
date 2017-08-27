@@ -1,0 +1,187 @@
+<template lang="pug">
+view.container
+  view.deal
+    scroll-view.deal-content(scroll-y)
+      view.deal-carousel
+        swiper(indicator-dots=true, indicator-active-color='#D8D8D8')
+          swiper-item(wx:for='{{product.images}}')
+            image.deal-carousel-media(src='{{qiniuCDN}}/{{item}}', mode='aspectFit')
+            view.pagination
+      view.deal-body
+        view.deal-price
+          view.price(data-price='.00') {{product.price}}
+        view.deal-title {{product.title}}
+        view.deal-intro
+          text {{product.intro}}
+
+        view.deal-table
+          view.table-line(wx:for='{{product.parameters}}')
+            view.key {{item.key}}
+            view.val {{item.value}}
+
+        view.deal-ps 购买提示
+          view.ps-line 1. 商品和服务差异
+          view.ps-line 2. 物流配送
+    view.pay-content(style='transform: {{payPosition}}')
+      view.pay-header
+        view(style='margin-left: 40rpx') 购买周边
+        view.close(catchtap='closePayContent') 取消
+      view.pay-body
+        view.pay-item
+          image(src='{{qiniuCDN}}/{{product.images[0]}}', mode='aspectFit')
+          view.pay-item-body
+            view.pay-item-name {{product.title}}
+            view.pay-item-price 价格 ¥{{product.price}}
+        view.input-group
+          view.label 收件人
+          input(placeholder='你的名字', bindinput='inputName')
+        view.input-group
+          view.label 电话
+          input(placeholder='你的电话', bindinput='inputPhoneNumber')
+        view.input-group
+          view.label 地址
+          input(placeholder='收货地址是？', bindinput='inputAddress')
+      view.pay-action(catchtap='pay') 确认支付
+    view.buy(catchtap='showPayContent')
+      view.btn 购买
+</template>
+<script>
+const app = getApp()
+
+Page({
+  data: {
+    qiniuCDN: app.globalData.qiniuCDN,
+    payPosition: 'translate(0, 100%)',
+    payContent: false,
+    phoneNumber: null,
+    address: null,
+    name: null,
+    active: 'active',
+    product: {}
+  },
+  async onLoad (query) {
+    wx.showNavigationBarLoading()
+
+    const { _id } = query
+
+    let res = await wx.reqAsync({
+      url: `${app.globalData.serverUrl}/api/products/${_id}`
+    })
+
+    let { data } = res
+
+    // <br /> 转换成 \n ，因为小程序的换行只能在 text 标签中的 \n 能实现
+    data.intro = data.intro.replace(/<br \/>/g, '\n')
+
+    this.setData({
+      product: data
+    })
+    this.product = data
+
+    let { title } = data
+
+    wx.setNavigationBarTitle({ title: title })
+    wx.hideNavigationBarLoading()
+  },
+  showPayContent () {
+    const vm = this
+    const coords = { x: 100 }
+    const tween = new TWEEN.Tween(coords)
+      .to({ x: 0 }, 150)
+      .onUpdate(function () {
+        vm.setData({
+          payPosition: `translate(0, ${this.x}%)`
+        })
+      })
+      .start()
+
+    requestAnimationFrame(animate)
+
+    function animate (time) {
+      requestAnimationFrame(animate)
+      TWEEN.update(time)
+    }
+  },
+  closePayContent () {
+    const vm = this
+    const coords = { x: 0 }
+    const tween = new TWEEN.Tween(coords)
+      .to({ x: 100 }, 150)
+      .onUpdate(function () {
+        vm.setData({
+          payPosition: `translate(0, ${this.x}%)`
+        })
+      })
+      .start()
+
+    requestAnimationFrame(animate)
+
+    function animate (time) {
+      requestAnimationFrame(animate)
+      TWEEN.update(time)
+    }
+  },
+  inputName (e) {
+    this.name = e.detail.value
+  },
+  inputAddress (e) {
+    this.address = e.detail.value
+  },
+  inputPhoneNumber (e) {
+    this.phoneNumber = e.detail.value
+  },
+  async pay (e) {
+    const product = this.product
+    // code 时间是 5 分钟，所以直接拿新的 code
+    const { code } = await wx.loginAsync()
+    const userInfo = await wx.getUserInfoAsync()
+
+    let order = await wx.reqAsync({
+      url: `${app.globalData.serverUrl}/mina/createOrder`,
+      method: 'POST',
+      data: {
+        code: code,
+        name: this.name,
+        address: this.address,
+        phoneNumber: this.phoneNumber,
+        userInfo: userInfo,
+        productId: product._id
+      }
+    })
+
+    if (order.statusCode !== 200 || !order.data.ret) {
+      return wx.showModal({
+        title: '错误',
+        content: order.data.msg || order.data
+      })
+    }
+
+    let res = await wx.payAsync(order.data.order)
+
+    res = await wx.reqAsync({
+      url: `${app.globalData.serverUrl}/mina/payment`,
+      method: 'POST',
+      data: R.merge(res.data, order.data)
+    })
+
+    if (res.statusCode !== 200) {
+      return wx.showModal({
+        title: '错误',
+        content: res.data
+      })
+    }
+
+    let title = res.data.success ? '恭喜' : '失败'
+
+    this.closePayContent()
+
+    return wx.showModal({
+      title: title,
+      content: res.data.msg
+    })
+  },
+  carousel (e) {
+    console.log(e)
+  }
+})
+</script>

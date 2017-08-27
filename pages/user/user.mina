@@ -1,0 +1,75 @@
+<template lang="pug">
+view.container
+  view.user
+    view.user-info
+      view.name {{user.nickName}}
+      image.profile(src='{{user.avatarUrl}}', mode='widthFix')
+    view.user-table
+      view.table-line
+        view.table-label
+          text 收货地址
+          view.material-icon location_on
+        view.table-body 
+          input(value='{{user.address}}', bindinput='inputInfo')
+      view.table-line
+        view.table-label
+          text 电话
+          view.material-icon phone_iphone
+        view.table-body
+          input(value='{{user.phoneNumber}}', bindinput='inputInfo')
+      view.table-line
+        view.table-label
+          text 姓名
+          view.material-icon account_box
+        view.table-body
+          input(value='{{user.name}}', bindinput='inputInfo')
+      view.table-line
+        view.table-label
+          text 我的订单
+          view.material-icon view_list
+        view.table-body
+          view.payment(wx:for='{{payment}}')
+            image(src='{{qiniuCDN}}/{{item.product.images[0]}}', mode='aspectFit')
+            view.payment-body
+              view.payment-title {{item.product.title}}
+              view.payment-intro {{item.product.intro}}
+            view.payment-footer
+              view.payment-footer
+                view.payment-price ¥{{item.product.price}}
+
+</template>
+<script>
+const app = getApp()
+
+Page({
+  data: {
+    qiniuCDN: app.globalData.qiniuCDN,
+    payment: [],
+    user: {}
+  },
+  async onLoad () {
+    wx.setNavigationBarTitle({ title: '个人中心' })
+    wx.showNavigationBarLoading()
+
+    const { code } = await wx.loginAsync()
+    let user = await app.getUserInfo()
+    const { data } = await wx.reqAsync({
+      url: `${app.globalData.serverUrl}/mina/user`,
+      data: {
+        code,
+        userInfo: user
+      }
+    })
+
+    user = R.merge(user, data.user)
+
+    this.setData({
+      user: user,
+      payment: data.payment
+    })
+    // const { data } = await wx.reqAsync({ url: '/mina/orders' })
+
+    wx.hideNavigationBarLoading()
+  }
+})
+</script>
