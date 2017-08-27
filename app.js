@@ -13,6 +13,8 @@ App({
   },
 
   globalData: {
-    userInfo: null
+    userInfo: null,
+    qiniuCDN: 'https://fireice.iblack7.com',
+    serverUrl: 'https://iceandfire.iblack7.com'
   }
 })

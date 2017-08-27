@@ -149,7 +149,7 @@ Page({
       }
     })
 
-    if (order.statusCode !== 200 || !order.data.ret) {
+    if (order.statusCode !== 200 || !order.data.success) {
       return wx.showModal({
         title: '错误',
         content: order.data.msg || order.data

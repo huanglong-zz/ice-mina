@@ -58,8 +58,8 @@ Page({
 
     let { cname } = house
     if (cname) wx.setNavigationBarTitle({ title: cname })
-    wx.hideNavigationBarLoading()
 
+    wx.hideNavigationBarLoading()
   }
 }) 
 </script>
