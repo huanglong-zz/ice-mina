@@ -1,7 +1,11 @@
 {
   "pages":[
     "pages/index/index",
-    "pages/logs/logs"
+    "pages/house/house",
+    "pages/deal/deal",
+    "pages/character/character",
+    "pages/shopping/shopping",
+    "pages/user/user"
   ],
   "window":{
     "backgroundTextStyle":"light",

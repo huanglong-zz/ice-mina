@@ -5,7 +5,7 @@ view.container
     view.shopping-list
       view.shopping-item(wx:for='{{products}}', catchtap='linkToDeal', data-item='{{item}}')
         .shopping-media
-          image(src='http://icefire.iblack7.com/{{item.images[0]}}?imageView2/1/w/300/h/300/format/jpg/q/90|imageslim', mode='aspectFit')
+          image(src='{{qiniuCDN}}/{{item.images[0]}}?imageView2/1/w/300/h/300/format/jpg/q/90|imageslim', mode='aspectFit')
         view.shopping-body
           view.shopping-body-title {{item.title}}
           view.shopping-body-content
@@ -37,7 +37,7 @@ Page({
     wx.showNavigationBarLoading()
 
     let res = await wx.reqAsync({url: `${app.globalData.serverUrl}/api/products`})
-    let { data } = res
+    let { data: { data }} = res
 
     // <br /> 转换成 \n
     data = _.map(data, item => {

@@ -14,7 +14,7 @@ App({
 
   globalData: {
     userInfo: null,
-    qiniuCDN: 'https://fireice.iblack7.com',
-    serverUrl: 'https://iceandfire.iblack7.com'
+    qiniuCDN: 'http://osmai097y.bkt.clouddn.com',
+    serverUrl: 'http://127.0.0.1:3000'
   }
 })

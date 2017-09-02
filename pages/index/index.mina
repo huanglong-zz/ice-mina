@@ -7,7 +7,7 @@ view.container
           view.caption {{item.words}}
           view.headline {{item.cname}}
           view.title {{item.name}}
-        image.carousel-media(src='{{qiniuCDN}}/{{item.cname}}', mode='widthFix')
+        image.carousel-media(src='{{qiniuCDN}}/{{item.cname}}.png', mode='widthFix')
   view.hr
   view.section
     view.section-title 主要人物
@@ -88,11 +88,11 @@ Page({
     let houses = await wx.reqAsync({url: `${app.globalData.serverUrl}/wiki/houses`})
 
     this.setData({
-      houses: houses.data
+      houses: houses.data.data
     })
 
     let characters = await wx.reqAsync({url: `${app.globalData.serverUrl}/wiki/characters`})
-    characters = R.slice(0, 8)(characters.data)
+    characters = R.slice(0, 8)(characters.data.data)
     this.setData({
       characters: characters
     })
